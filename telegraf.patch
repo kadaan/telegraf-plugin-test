@@ -1,0 +1,37 @@
+diff --git a/internal/config/config.go b/internal/config/config.go
+index 6e05ce45..73a1276a 100644
+--- a/internal/config/config.go
++++ b/internal/config/config.go
+@@ -676,6 +676,10 @@ func getDefaultConfigPath() (string, error) {
+ 
+ // LoadConfig loads the given config file and applies it to c
+ func (c *Config) LoadConfig(path string) error {
++	log.Printf("I! [config] init started")
++	for k, _ := range processors.Processors {
++		log.Printf("I! [config]     Processor: %s", k)
++	}
+ 	var err error
+ 	if path == "" {
+ 		if path, err = getDefaultConfigPath(); err != nil {
+diff --git a/plugins/processors/registry.go b/plugins/processors/registry.go
+index 592c688f..47fda02b 100644
+--- a/plugins/processors/registry.go
++++ b/plugins/processors/registry.go
+@@ -1,11 +1,16 @@
+ package processors
+ 
+-import "github.com/influxdata/telegraf"
++import (
++	"github.com/influxdata/telegraf"
++	"log"
++	"reflect"
++)
+ 
+ type Creator func() telegraf.Processor
+ 
+ var Processors = map[string]Creator{}
+ 
+ func Add(name string, creator Creator) {
++	log.Printf("I! [processors] Processors (%v): Adding %s", reflect.ValueOf(Processors).Pointer(), name)
+ 	Processors[name] = creator
+ }

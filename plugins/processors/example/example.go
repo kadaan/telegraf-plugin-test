@@ -34,7 +34,7 @@ func init() {
 		log.Printf("I! [processors.example] creating processor")
 		return processor
 	})
-	log.Printf("I! [processors.example] Processors (%v): ", reflect.ValueOf(processors.Processors).Addr())
+	log.Printf("I! [processors.example] Processors (%v): ", reflect.ValueOf(processors.Processors).Pointer())
 	for k := range processors.Processors {
 		log.Printf("I! [processors.example]    Processor: %s", k)
 	}
